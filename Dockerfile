@@ -1,9 +1,7 @@
 FROM resin/raspberry-pi-alpine:3.6
 
-ENV ARCH=arm
-ENV CROSS_COMPILE=/usr/bin/
+RUN [ "cross-build-start" ]
 
-ENTRYPOINT [ "certbot" ]
 VOLUME /etc/letsencrypt /var/lib/letsencrypt
 WORKDIR /opt/certbot
 
@@ -32,7 +30,11 @@ RUN apk update \
         --editable /opt/certbot \
     && apk del .build-deps
 
+RUN [ "cross-build-end" ]
+
 # Get timezone stuff set up correctly:
 ENV TZ=America/Denver
 RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
     && echo "$TZ" > /etc/timezone
+
+ENTRYPOINT [ "certbot" ]
