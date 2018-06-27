@@ -32,9 +32,4 @@ RUN apk update \
 
 RUN [ "cross-build-end" ]
 
-# Get timezone stuff set up correctly:
-ENV TZ=America/Denver
-RUN ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
-    && echo "$TZ" > /etc/timezone
-
 ENTRYPOINT [ "certbot" ]
